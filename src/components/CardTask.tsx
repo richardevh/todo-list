@@ -14,23 +14,43 @@ interface CardTaskProps {
   onStatusChange?: (id: string, newStatus: TaskStatus) => void;
 }
 
-const CardTask: React.FC<CardTaskProps> = ({ todo, onStatusChange }: CardTaskProps) => {
+const CardTask: React.FC<CardTaskProps> = ({
+  todo,
+  onStatusChange,
+}: CardTaskProps) => {
   return (
     <>
-      <Card.Root width="320px">
-        <Badge variant="solid" position={"absolute"} right={3} top={3}>
-          Solid
+      <Card.Root
+        width="320px"
+        bg="white"
+        borderColor="gray.200"
+        borderWidth="1px"
+        shadow="sm"
+      >
+        <Badge
+          variant="solid"
+          position={"absolute"}
+          right={3}
+          top={3}
+          style={{
+            backgroundColor:
+              todo.status === "doing"
+                ? "#2784F5"
+                : todo.status === "done"
+                  ? "#18AD7D"
+                  : "gray",
+          }}
+        >
+          {todo.status}
         </Badge>
         <Card.Body>
           <Heading as="h3" mb={5}>
-          {todo.title}
+            {todo.title}
           </Heading>
           <ScrollArea.Root height="14rem">
             <ScrollArea.Viewport>
               <ScrollArea.Content paddingEnd="3" textStyle="sm">
-                <Card.Description>
-                  {todo.description}
-                </Card.Description>
+                <Card.Description>{todo.description}</Card.Description>
               </ScrollArea.Content>
             </ScrollArea.Viewport>
             <ScrollArea.Scrollbar />
