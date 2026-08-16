@@ -5,7 +5,7 @@ export const TODOS = [
         description: "Revisar y actualizar los paquetes de npm desactualizados en el archivo package.json para evitar vulnerabilidades de seguridad.",
         status: "todo"
     },
-    {
+    /* {
         id: 2,
         title: "Diseñar la pantalla de inicio de sesión",
         description: "Crear wireframes y mockups de alta fidelidad en Figma para el nuevo flujo de autenticación de usuarios.",
@@ -118,5 +118,5 @@ export const TODOS = [
         title: "Preparar la demo para la reunión de sprint",
         description: "Recopilar las nuevas características desarrolladas en el ciclo actual y preparar el entorno de pruebas para la presentación con el cliente.",
         status: "todo"
-    }
+    } */
 ];
