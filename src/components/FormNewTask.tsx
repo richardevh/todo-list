@@ -6,24 +6,36 @@ import {
   Checkbox,
   Textarea,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import React, { useState } from "react";
 import { useAlert } from "@/providers/AlertProvider";
 import Alert from "./Alert";
+import type { TaskStatus } from "@/hooks/useStorage";
 
-const FormNewTask = () => {
+interface FormNewTaskProps {
+  onAddTask?: (task: {
+    title: string;
+    description: string;
+    status: TaskStatus;
+  }) => void;
+}
+
+const FormNewTask: React.FC<FormNewTaskProps> = ({ onAddTask }) => {
   const [newTodo, setNewTodo] = useState({ title: "", description: "" });
+  const [isDone, setIsDone] = useState(false);
   const { isShowing, showAlert, hideAlert } = useAlert();
 
-  const generateId = () => {
-    const d = new Date();
-    return `${d.getHours()}${d.getMinutes()}${d.getSeconds()}-${d.getDate()}${d.getMonth()}-${d.getFullYear()}-${d.getMilliseconds()}`;
-  };
+  const handleSave = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newTodo.title.trim()) return showAlert();
 
-  const handleSave = (todo) => {
-    if (!newTodo.title) return showAlert();
+    onAddTask({
+      title: newTodo.title.trim(),
+      description: newTodo.description.trim(),
+      status: isDone ? "done" : "todo",
+    });
 
-    todo.id = generateId();
-    console.log("todo =", todo);
+    setNewTodo({ title: "", description: "" });
+    setIsDone(false);
   };
 
   return (
@@ -44,15 +56,17 @@ const FormNewTask = () => {
         shadow="sm"
         rounded="lg"
       >
-        <form>
+        <form onSubmit={handleSave}>
           <Heading mb={5}>New task</Heading>
           <Box>
             <label htmlFor="inp-title">Title</label>
             <Input
               id="inp-title"
+              value={newTodo.title}
               onChange={(e) =>
                 setNewTodo((prev) => ({ ...prev, title: e.target.value }))
               }
+              placeholder="Task title..."
             />
           </Box>
           <Box mt={3}>
@@ -61,20 +75,25 @@ const FormNewTask = () => {
               id="inp-description"
               resize="none"
               h={100}
+              value={newTodo.description}
               onChange={(e) =>
                 setNewTodo((prev) => ({ ...prev, description: e.target.value }))
               }
+              placeholder="Task details..."
             />
           </Box>
           <Box my={5}>
-            <Checkbox.Root>
+            <Checkbox.Root
+              checked={isDone}
+              onCheckedChange={(details) => setIsDone(!!details.checked)}
+            >
               <Checkbox.HiddenInput />
               <Checkbox.Control />
               <Checkbox.Label>Done</Checkbox.Label>
             </Checkbox.Root>
           </Box>
           <Box>
-            <Button onClick={() => handleSave(newTodo)}>Save</Button>
+            <Button type="submit">Save</Button>
           </Box>
         </form>
       </Box>

@@ -10,7 +10,7 @@ import useTodos from "../hooks/useTodos";
 import { AlertProvider } from "../providers/AlertProvider";
 
 const Todos = () => {
-  const { todos } = useTodos();
+  const { todos, addTodo, deleteTodo, updateTodo } = useTodos();
 
   return (
     <AlertProvider>
@@ -37,10 +37,17 @@ const Todos = () => {
         </Heading>
 
         <SimpleGrid columns={[1, 2, null, 3, 4]} gap="6">
-          <FormNewTask />
+          <FormNewTask onAddTask={addTodo} />
 
           {todos.map((todo) => (
-            <CardTask key={todo.id} todo={todo} />
+            <CardTask
+              key={todo.id}
+              todo={todo}
+              onDelete={deleteTodo}
+              onStatusChange={(id, newStatus) =>
+                updateTodo(id, { status: newStatus })
+              }
+            />
           ))}
         </SimpleGrid>
       </Container>
