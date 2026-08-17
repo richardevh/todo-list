@@ -1,6 +1,7 @@
 import { Badge, Heading, ScrollArea, Card, Button } from "@chakra-ui/react";
 import React from "react";
 import type { TaskStatus, Task as TaskInformation } from "@/hooks/useStorage";
+import { useAlert } from "@/providers/AlertProvider";
 
 interface CardTaskProps {
   todo: TaskInformation;
@@ -13,6 +14,8 @@ const CardTask: React.FC<CardTaskProps> = ({
   onStatusChange,
   onDelete,
 }) => {
+  const { showAlert } = useAlert();
+
   const getNextStatus = (current: TaskStatus): TaskStatus => {
     if (current === "todo") return "doing";
     if (current === "doing") return "done";
@@ -29,6 +32,16 @@ const CardTask: React.FC<CardTaskProps> = ({
     if (current === "todo") return "blue";
     if (current === "doing") return "green";
     return "gray";
+  };
+
+  const handleDelete = () => {
+    showAlert({
+      title: "Eliminar Tarea",
+      message: `¿Estás seguro de que deseas eliminar la tarea "${todo.title}"?`,
+      confirmText: "Eliminar",
+      cancelText: "Cancelar",
+      onConfirm: () => onDelete?.(todo.id),
+    });
   };
 
   return (
@@ -79,7 +92,7 @@ const CardTask: React.FC<CardTaskProps> = ({
           variant="subtle"
           colorPalette="red"
           flex="1"
-          onClick={() => onDelete?.(todo.id)}
+          onClick={handleDelete}
         >
           Delete
         </Button>

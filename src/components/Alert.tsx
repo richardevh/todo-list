@@ -1,69 +1,130 @@
 import { Box, Flex, Heading, Button, Text } from "@chakra-ui/react";
+import React from "react";
 
-interface AlertProps {
-  title: string;
-  message: string;
+export interface AlertProps {
+  title?: string;
+  message?: string;
   closeAlert: () => void;
+  onConfirm?: () => void;
+  onCancel?: () => void;
+  confirmText?: string;
+  cancelText?: string;
+  showCancelButton?: boolean;
 }
 
-const Alert = ({ title, message, closeAlert }: AlertProps) => {
+const Alert: React.FC<AlertProps> = ({
+  title = "Alerta",
+  message = "",
+  closeAlert,
+  onConfirm,
+  onCancel,
+  confirmText = "Confirmar",
+  cancelText = "Cancelar",
+  showCancelButton = false,
+}) => {
+  const isDecision = Boolean(onConfirm || showCancelButton);
+
+  const handleCancel = () => {
+    if (onCancel) {
+      onCancel();
+    } else {
+      closeAlert();
+    }
+  };
+
+  const handleConfirm = () => {
+    if (onConfirm) {
+      onConfirm();
+    } else {
+      closeAlert();
+    }
+  };
+
   return (
     <Box
-      h="svh"
-      w="svw"
-      position={"fixed"}
-      bg={"black/70"}
+      h="100vh"
+      w="100vw"
+      position="fixed"
+      bg="black/60"
       top={0}
       left={0}
       m={0}
-      padding={0}
-      /* border={"2px solid green"} */
-      display={"flex"}
-      alignItems={"center"}
-      justifyContent={"center"}
-      zIndex={10}
+      p={0}
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
+      zIndex={1000}
       onClick={(e) => {
         if (e.target === e.currentTarget) {
-          closeAlert();
+          handleCancel();
         }
       }}
     >
       <Flex
-        bg={"white"}
-        color={"gray.800"}
-        shadow={"xl"}
-        borderWidth={"1px"}
-        borderColor={"gray.200"}
-        direction={"column"}
-        borderRadius={"12px"}
-        gap={"10px"}
-        px={"30px"}
-        py={"20px"}
-        maxW={"400px"}
-        w={"90%"}
+        bg="white"
+        color="gray.800"
+        shadow="2xl"
+        borderWidth="1px"
+        borderColor="gray.200"
+        direction="column"
+        borderRadius="12px"
+        gap={4}
+        px={6}
+        py={5}
+        maxW="400px"
+        w="90%"
       >
-        <Flex justifyContent={"space-between"} w={"100%"} gap={5}>
+        <Flex
+          justifyContent="space-between"
+          alignItems="center"
+          w="100%"
+          gap={4}
+        >
           <Heading
-            fontSize={"1.25rem"}
-            borderBottom={"1px solid"}
-            borderColor={"gray.200"}
-            pb={3}
+            fontSize="lg"
+            borderBottom="1px solid"
+            borderColor="gray.200"
+            pb={2}
             w="full"
           >
-            {title || "Alert title"}
+            {title}
           </Heading>
           <Button
-            h={"25px"}
-            w={"20px"}
-            bg={"red.500"}
-            border={"none"}
-            color={"red.200"}
-            onClick={closeAlert}
+            size="xs"
+            variant="subtle"
+            colorPalette="gray"
+            onClick={handleCancel}
+            aria-label="Cerrar"
           >
-            X
+            ✕
           </Button>
         </Flex>
-        <Text>{message || "Alert message"}</Text>
+
+        <Text color="gray.600" fontSize="sm">
+          {message}
+        </Text>
+
+        <Flex justifyContent="flex-end" gap={3} mt={2}>
+          {isDecision ? (
+            <>
+              <Button
+                size="sm"
+                variant="subtle"
+                colorPalette="gray"
+                onClick={handleCancel}
+              >
+                {cancelText}
+              </Button>
+              <Button size="sm" colorPalette="red" onClick={handleConfirm}>
+                {confirmText}
+              </Button>
+            </>
+          ) : (
+            <Button size="sm" colorPalette="teal" onClick={closeAlert}>
+              Aceptar
+            </Button>
+          )}
+        </Flex>
       </Flex>
     </Box>
   );

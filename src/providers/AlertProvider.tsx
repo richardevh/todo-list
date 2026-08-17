@@ -1,40 +1,91 @@
-import { createContext, useContext, useState, useMemo } from 'react';
+import React, { createContext, useContext, useState, useMemo } from "react";
+import Alert from "@/components/Alert";
 
-// 1. Crear el contexto original de forma privada (sin exportar)
-const AlertContext = createContext({});
+export interface AlertOptions {
+  title?: string;
+  message?: string;
+  confirmText?: string;
+  cancelText?: string;
+  showCancelButton?: boolean;
+  onConfirm?: () => void;
+  onCancel?: () => void;
+}
 
-// 2. Crear el componente Provider que envolverá la aplicación
-export const AlertProvider = ({ children }) => {
+interface AlertContextType {
+  isShowing: boolean;
+  showAlert: (options?: AlertOptions | string) => void;
+  hideAlert: () => void;
+}
+
+const AlertContext = createContext<AlertContextType | undefined>(undefined);
+
+export const AlertProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const [isShowing, setIsShowing] = useState(false);
+  const [alertConfig, setAlertConfig] = useState<AlertOptions>({});
 
-  const showAlert = () => setIsShowing(true);
+  const showAlert = (options?: AlertOptions | string) => {
+    if (typeof options === "string") {
+      setAlertConfig({ title: "Atención", message: options });
+    } else if (options) {
+      setAlertConfig(options);
+    } else {
+      setAlertConfig({ title: "Atención", message: "" });
+    }
+    setIsShowing(true);
+  };
 
-  const hideAlert = () => setIsShowing(false)
+  const hideAlert = () => {
+    setIsShowing(false);
+  };
 
+  const handleConfirm = () => {
+    if (alertConfig.onConfirm) {
+      alertConfig.onConfirm();
+    }
+    hideAlert();
+  };
 
-  // Optimización: Memoizamos el valor para evitar re-renders innecesarios
-  // de los consumidores cuando el componente padre de CartProvider se actualice.
-  const value = useMemo(() => ({
-    isShowing,
-    showAlert,
-    hideAlert
-  }), [isShowing]); // Solo cambia el objeto si el contenido del carrito cambia
+  const handleCancel = () => {
+    if (alertConfig.onCancel) {
+      alertConfig.onCancel();
+    }
+    hideAlert();
+  };
+
+  const value = useMemo(
+    () => ({
+      isShowing,
+      showAlert,
+      hideAlert,
+    }),
+    [isShowing],
+  );
 
   return (
     <AlertContext.Provider value={value}>
       {children}
+      {isShowing && (
+        <Alert
+          title={alertConfig.title}
+          message={alertConfig.message}
+          closeAlert={hideAlert}
+          onConfirm={alertConfig.onConfirm ? handleConfirm : undefined}
+          onCancel={handleCancel}
+          confirmText={alertConfig.confirmText}
+          cancelText={alertConfig.cancelText}
+          showCancelButton={alertConfig.showCancelButton}
+        />
+      )}
     </AlertContext.Provider>
   );
 };
 
-// 3. Custom Hook para consumir el contexto de forma segura y sencilla
-export const useAlert = () => {
+export const useAlert = (): AlertContextType => {
   const context = useContext(AlertContext);
-  
-  // Si el contexto es undefined, significa que el componente está fuera del Provider
   if (context === undefined) {
-    throw new Error('AlertContext debe utilizarse dentro de un CartProvider');
+    throw new Error("useAlert debe utilizarse dentro de un AlertProvider");
   }
-  
   return context;
 };
