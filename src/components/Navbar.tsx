@@ -5,10 +5,10 @@ import {
   HStack,
   Heading,
   Text,
-  Badge,
+  Link,
 } from "@chakra-ui/react";
 import { NavLink } from "react-router-dom";
-import { LuCheck, LuLayoutDashboard, LuListTodo } from "react-icons/lu";
+import { LuCheck, LuLayoutDashboard, LuListTodo, LuUser } from "react-icons/lu";
 
 const Navbar = () => {
   return (
@@ -23,32 +23,40 @@ const Navbar = () => {
       shadow="xs"
     >
       <Container maxW="7xl">
-        <Flex h="16" alignItems="center" justifyContent="space-between">
-          {/* Brand */}
-          <NavLink to="/" style={{ textDecoration: "none" }}>
-            <HStack gap="3">
-              <Flex
-                w="10"
-                h="10"
-                bg="teal.600"
-                color="white"
-                borderRadius="lg"
-                alignItems="center"
-                justifyContent="center"
-                shadow="sm"
-              >
-                <LuCheck size={22} strokeWidth={3} />
-              </Flex>
-              <Box>
-                <Heading size="md" color="gray.800" fontWeight="bold">
-                  TaskFlow
-                </Heading>
-                <Text fontSize="xs" color="gray.500">
-                  Todo & Task Manager
-                </Text>
-              </Box>
-            </HStack>
-          </NavLink>
+        <Flex
+          direction={{ base: "column", md: "row" }}
+          minH={{ base: "auto", lg: "16" }}
+          py={{ base: 3, lg: 0 }}
+          alignItems="center"
+          justifyContent="space-between"
+          gap={{ base: 3, lg: 4 }}
+        >
+          <Flex w={{ base: "100%" }}>
+            <NavLink to="/" style={{ textDecoration: "none" }}>
+              <HStack gap="3">
+                <Flex
+                  w="10"
+                  h="10"
+                  bg="teal.600"
+                  color="white"
+                  borderRadius="lg"
+                  alignItems="center"
+                  justifyContent="center"
+                  shadow="sm"
+                >
+                  <LuCheck size={22} strokeWidth={3} />
+                </Flex>
+                <Box>
+                  <Heading size="md" color="gray.800" fontWeight="bold">
+                    TaskFlow
+                  </Heading>
+                  <Text fontSize="xs" color="gray.500">
+                    Todo & Task Manager
+                  </Text>
+                </Box>
+              </HStack>
+            </NavLink>
+          </Flex>
 
           {/* Nav Links */}
           <HStack gap="2">
@@ -96,19 +104,27 @@ const Navbar = () => {
               <LuListTodo size={18} />
               <span>Tareas</span>
             </NavLink>
+            <Link
+              href="https://richard.devhubs.online"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                textDecoration: "none",
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "8px",
+                padding: "8px 16px",
+                borderRadius: "8px",
+                fontSize: "14px",
+                fontWeight: 600,
+                color: "#4b5563",
+                transition: "all 0.2s ease",
+              }}
+            >
+              <LuUser size={18} />
+              <span>Creador</span>
+            </Link>
           </HStack>
-
-          {/* Status Badge */}
-          <Badge
-            colorPalette="teal"
-            variant="surface"
-            size="sm"
-            px="2.5"
-            py="1"
-            borderRadius="full"
-          >
-            ToDo v1.0.0
-          </Badge>
         </Flex>
       </Container>
     </Box>
