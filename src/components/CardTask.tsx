@@ -46,7 +46,6 @@ const CardTask: React.FC<CardTaskProps> = ({
 
   return (
     <Card.Root
-      width="320px"
       bg="white"
       borderColor="gray.200"
       borderWidth="1px"
