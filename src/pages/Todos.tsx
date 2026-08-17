@@ -1,4 +1,11 @@
-import { Container, Heading, Highlight, SimpleGrid } from "@chakra-ui/react";
+import {
+  Container,
+  Heading,
+  Highlight,
+  SimpleGrid,
+  Text,
+  Flex,
+} from "@chakra-ui/react";
 import FormNewTask from "../components/FormNewTask";
 import CardTask from "../components/CardTask";
 import useStorage from "@/hooks/useStorage";
@@ -34,16 +41,24 @@ const Todos = () => {
         <SimpleGrid columns={[1, 2, null, 3, 4]} gap="6">
           <FormNewTask onAddTask={addTodo} />
 
-          {todos.map((todo) => (
-            <CardTask
-              key={todo.id}
-              todo={todo}
-              onDelete={deleteTodo}
-              onStatusChange={(id, newStatus) =>
-                updateTodo(id, { status: newStatus })
-              }
-            />
-          ))}
+          {todos.length < 1 ? (
+            <Flex justifyContent="center" alignItems="center">
+              <Text fontSize="xl" fontWeight="semibold" color="gray.500">
+                No hay tareas
+              </Text>
+            </Flex>
+          ) : (
+            todos.map((todo) => (
+              <CardTask
+                key={todo.id}
+                todo={todo}
+                onDelete={deleteTodo}
+                onStatusChange={(id, newStatus) =>
+                  updateTodo(id, { status: newStatus })
+                }
+              />
+            ))
+          )}
         </SimpleGrid>
       </Container>
     </AlertProvider>
