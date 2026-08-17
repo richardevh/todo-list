@@ -57,7 +57,7 @@ const CardTask: React.FC<CardTaskProps> = ({
         {todo.status}
       </Badge>
       <Card.Body>
-        <Heading as="h3" mb={5}>
+        <Heading as="h3" mb={5} borderBottom={"2px solid #4d4d4dff"} pb={2}>
           {todo.title}
         </Heading>
         <ScrollArea.Root height="14rem">
