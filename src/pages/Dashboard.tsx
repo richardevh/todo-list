@@ -10,7 +10,6 @@ import {
   Button,
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
-import useTodos from "@/hooks/useTodos";
 import {
   LuListTodo,
   LuClock,
@@ -19,9 +18,10 @@ import {
   LuArrowRight,
   LuSparkles,
 } from "react-icons/lu";
+import useStorage from "@/hooks/useStorage";
 
 const Dashboard = () => {
-  const { todos } = useTodos();
+  const { todos } = useStorage();
 
   const total = todos.length;
   const pending = todos.filter((t) => t.status === "todo").length;

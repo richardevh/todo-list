@@ -1,16 +1,11 @@
-import {
-  Container,
-  Heading,
-  Highlight,
-  SimpleGrid,
-} from "@chakra-ui/react";
+import { Container, Heading, Highlight, SimpleGrid } from "@chakra-ui/react";
 import FormNewTask from "../components/FormNewTask";
 import CardTask from "../components/CardTask";
-import useTodos from "../hooks/useTodos";
+import useStorage from "@/hooks/useStorage";
 import { AlertProvider } from "../providers/AlertProvider";
 
 const Todos = () => {
-  const { todos, addTodo, deleteTodo, updateTodo } = useTodos();
+  const { todos, addTodo, deleteTodo, updateTodo } = useStorage();
 
   return (
     <AlertProvider>
