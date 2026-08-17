@@ -90,8 +90,8 @@ const Dashboard = () => {
           _hover={{ bg: "teal.700" }}
           size="md"
         >
-          <Link to="/">
-            Ver Tablero de Tareas <LuArrowRight style={{ marginLeft: 6 }} />
+          <Link to="/tareas">
+            Ver Tareas <LuArrowRight style={{ marginLeft: 6 }} />
           </Link>
         </Button>
       </Flex>
