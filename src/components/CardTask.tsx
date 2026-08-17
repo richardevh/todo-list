@@ -60,10 +60,15 @@ const CardTask: React.FC<CardTaskProps> = ({
         <Heading as="h3" mb={5} borderBottom={"2px solid #4d4d4dff"} pb={2}>
           {todo.title}
         </Heading>
-        <ScrollArea.Root height="14rem">
+        <ScrollArea.Root maxH="200px">
           <ScrollArea.Viewport>
             <ScrollArea.Content paddingEnd="3" textStyle="sm">
-              <Card.Description>{todo.description}</Card.Description>
+              <Card.Description
+                overflowWrap="break-word"
+                wordBreak="break-word"
+              >
+                {todo.description}
+              </Card.Description>
             </ScrollArea.Content>
           </ScrollArea.Viewport>
           <ScrollArea.Scrollbar />
