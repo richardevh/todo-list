@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Todos from "@/pages/Todos";
 import Layout from "@/layout/Layout";
 import Dashboard from "@/pages/Dashboard";

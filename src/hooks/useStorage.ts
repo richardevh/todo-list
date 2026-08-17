@@ -60,10 +60,10 @@ export const useStorage = () => {
     title: string;
     description?: string;
     status?: TaskStatus;
-    id: string;
+    id?: string;
   }) => {
     const item: Task = {
-      id: generateId(),
+      id: newTask.id ?? generateId(),
       title: newTask.title,
       description: newTask.description ?? "",
       status: newTask.status ?? "todo",
