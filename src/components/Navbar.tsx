@@ -71,12 +71,11 @@ const Navbar = () => {
                 transition: "all 0.2s ease",
               })}
             >
-              <LuListTodo size={18} />
-              <span>Tareas</span>
+              <LuLayoutDashboard size={18} />
+              <span>Dashboard</span>
             </NavLink>
-
             <NavLink
-              to="/dashboard"
+              to="/tareas"
               style={({ isActive }) => ({
                 textDecoration: "none",
                 display: "inline-flex",
@@ -94,8 +93,8 @@ const Navbar = () => {
                 transition: "all 0.2s ease",
               })}
             >
-              <LuLayoutDashboard size={18} />
-              <span>Dashboard</span>
+              <LuListTodo size={18} />
+              <span>Tareas</span>
             </NavLink>
           </HStack>
 

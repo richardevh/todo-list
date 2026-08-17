@@ -8,9 +8,8 @@ const Router = () => {
   return (
     <Routes>
       <Route element={<Layout />}>
-        <Route index element={<Todos />} />
-        <Route path="todos" element={<Navigate to="/" replace />} />
-        <Route path="dashboard" element={<Dashboard />} />
+        <Route index element={<Dashboard />} />
+        <Route path="tareas" element={<Todos />} />
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
